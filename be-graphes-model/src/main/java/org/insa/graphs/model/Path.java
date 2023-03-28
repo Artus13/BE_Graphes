@@ -255,8 +255,14 @@ public class Path {
      * @deprecated Need to be implemented.
      */
     public double getMinimumTravelTime() {
-        // TODO:
-        return 0;
+        float minumTime = 0 ;
+        List<Arc> listeArcs = getArcs() ;
+        if ( !(this.isEmpty()) && !(this.size() == 1 && this.arcs.size() == 0)) {
+            for (int i = 0 ; i < arcs.size() ; i++) {
+                minumTime += listeArcs.get(i).getMinimumTravelTime() ;
+            }
+        }
+        return minumTime;
     }
 
 }
