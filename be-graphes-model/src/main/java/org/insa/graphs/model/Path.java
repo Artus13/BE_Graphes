@@ -2,6 +2,7 @@ package org.insa.graphs.model;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -29,13 +30,31 @@ public class Path {
      * 
      * @throws IllegalArgumentException If the list of nodes is not valid, i.e. two
      *         consecutive nodes in the list are not connected in the graph.
-     * 
-     * @deprecated Need to be implemented.
      */
     public static Path createFastestPathFromNodes(Graph graph, List<Node> nodes)
             throws IllegalArgumentException {
         List<Arc> arcs = new ArrayList<Arc>();
-        // TODO:
+
+        double minimumTravelTime = Double.MAX_VALUE ;
+        Arc arcAAjouter = null ;
+        boolean valid = false;
+
+        for (int i = 0 ; i < nodes.size()-1 ; i++){
+            Node nodeActuel = nodes.get(i) ;
+            for (int j = 0 ; j < nodeActuel.getNumberOfSuccessors() ; j++){
+                Arc arcActuel = nodeActuel.getSuccessors().get(j) ;
+                if ((arcActuel.getMinimumTravelTime() < minimumTravelTime) && (arcActuel.getDestination() == nodes.get(i+1))){
+                    minimumTravelTime = arcActuel.getMinimumTravelTime() ;
+                    arcAAjouter = arcActuel ;
+                    valid=true;
+                }
+                if(valid==false){
+                    throw new IllegalArgumentException();
+                }
+            }
+            arcs.add(arcAAjouter) ;
+        }
+
         return new Path(graph, arcs);
     }
 
@@ -251,8 +270,6 @@ public class Path {
      * on every arc.
      * 
      * @return Minimum travel time to travel this path (in seconds).
-     * 
-     * @deprecated Need to be implemented.
      */
     public double getMinimumTravelTime() {
         float minumTime = 0 ;
