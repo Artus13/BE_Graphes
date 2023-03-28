@@ -201,7 +201,7 @@ public class Path {
     public boolean isValid() {
         Boolean bool = false ;
 
-        if (this.isEmpty() || this.size() == 1 && this.arcs.size() == 0) {
+        if (this.isEmpty() || (this.size() == 1 && this.arcs.size() == 0)) {
             bool = true ;
         }
         else {
@@ -221,12 +221,16 @@ public class Path {
      * Compute the length of this path (in meters).
      * 
      * @return Total length of the path (in meters).
-     * 
-     * @deprecated Need to be implemented.
      */
-    public float getLength() {
-        // TODO:
-        return 0;
+    public float getLength(){
+        float length = 0 ;
+        List<Arc> listeArcs = getArcs() ;
+        if ( !(this.isEmpty()) && !(this.size() == 1 && this.arcs.size() == 0)) {
+            for (int i = 0 ; i < arcs.size() ; i++) {
+                length += listeArcs.get(i).getLength() ;
+            }
+        }
+        return length;
     }
 
     /**
