@@ -4,8 +4,6 @@ import java.util.ArrayList;
 
 import org.insa.graphs.algorithm.utils.BinaryHeap;
 
-import org.insa.graphs.algorithm.shortestpath.Label;
-
 import org.insa.graphs.model.Node ;
 
 public class DijkstraAlgorithm extends ShortestPathAlgorithm {
@@ -36,9 +34,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
 
         listeLabels.get(0).setCoutRealise(0.0) ;
         BinaryHeap<Label> tas = new BinaryHeap<Label>() ;
-        tas.BinaryHeap() ; 
-        insert(listeLabels.get(0))
-
+        
 
         return solution;
     }

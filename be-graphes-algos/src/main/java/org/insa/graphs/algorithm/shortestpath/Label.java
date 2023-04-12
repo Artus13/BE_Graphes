@@ -2,7 +2,7 @@ package org.insa.graphs.algorithm.shortestpath;
 
 import org.insa.graphs.model.Node;
 
-public class Label {
+public class Label implements Comparable <Label>{
    private Node sommetCourant ;
    private Boolean marque ;
    private Double coutRealise ;
@@ -42,5 +42,17 @@ public class Label {
 
    public Double getCost () {
       return this.coutRealise ;
+   }
+
+   public int compareTo (Label l) {
+      if (this.coutRealise-l.coutRealise < 0) {
+         return -1 ;
+      }
+      else if (this.coutRealise-l.coutRealise < 0) {
+         return 1 ;
+      }
+      else {
+         return 0 ;
+      }
    }
 }
