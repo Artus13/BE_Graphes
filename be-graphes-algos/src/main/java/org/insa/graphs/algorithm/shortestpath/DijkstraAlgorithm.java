@@ -28,7 +28,6 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         //Initialisation
         //attention j'initialise tous les noeuds alors qu'on en a pas necessairement besoin
         int NbNoeuds = data.getGraph().getNodes().size() ;
-        System.out.println(data.getOrigin().getId());
         for (int i = 0; i < NbNoeuds; i++) {
             listeLabels.add(new Label(data.getGraph().getNodes().get(i), false, Double.POSITIVE_INFINITY, null)) ;
         }
@@ -44,35 +43,44 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         Node nodeSuccesseur ;
         Label labelSucceseur ;
         Arc arcCourant ;
-        Double oldCost ;
-        Double newCost ;
+        
 
         while (!labelDestination.getMarque() && !tas.isEmpty()){
             labelCourant = tas.findMin() ;
-            labelCourant.setMarque(true) ;
-            for (int y = 0 ; y < labelCourant.getSommetCourant().getNumberOfSuccessors() ; y ++){
-                nodeSuccesseur = labelCourant.getSommetCourant().getSuccessors().get(y).getDestination() ;
+            labelCourant.setMarque(true);
+            tas.deleteMin();
+            for (Arc y: labelCourant.sommetCourant.getSuccessors()){
+                nodeSuccesseur = y.getDestination() ;
                 labelSucceseur = listeLabels.get(nodeSuccesseur.getId()) ;
-                arcCourant = labelCourant.getSommetCourant().getSuccessors().get(y) ;
+                arcCourant = y ;
                 if (!labelSucceseur.getMarque()){
-                   // oldCost = labelSucceseur.getCoutRealise() ;
-                    //newCost = oldCost, labelCourant.getCost() + labelCourant.getSommetCourant().getSuccessors().get(y).getLength();
-                    if(labelSucceseur.getCoutRealise() > labelCourant.getCost() + labelCourant.getSommetCourant().getSuccessors().get(y).getLength()){
-                        labelSucceseur.setCoutRealise(labelCourant.getCost() + labelCourant.getSommetCourant().getSuccessors().get(y).getLength());
+        
+                    if(labelSucceseur.getCoutRealise() > labelCourant.getCost() + y.getLength()){
                         if(labelSucceseur.getCoutRealise()!=Double.POSITIVE_INFINITY){
+                            labelSucceseur.setCoutRealise(labelCourant.getCost() + y.getLength());
                             tas.remove(labelSucceseur);
                             tas.insert(labelSucceseur);
-                            labelSucceseur.setPere(arcCourant);
+                            labelSucceseur.setPere(y);
                         }
                         else{
+                            labelSucceseur.setCoutRealise(labelCourant.getCost() + y.getLength());
                             tas.insert(labelSucceseur);
-                            labelSucceseur.setPere(arcCourant);
+                            labelSucceseur.setPere(y);
+                            System.out.println(y);
                         }
                     }
                 }
             } 
         }
 
+        
+        System.out.println(listeLabels.get(data.getDestination().getId()).getPere());
+        if (listeLabels.get(data.getDestination().getId()).getPere() == null) {
+            solution = new ShortestPathSolution(data, Status.INFEASIBLE);
+        }
+        else {
+
+            // Create the path from the array of predecessors...
         ArrayList<Arc> arcs = new ArrayList<>();
         Arc arc = listeLabels.get(data.getDestination().getId()).getPere();
         System.out.println(arc);
@@ -84,7 +92,8 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         Collections.reverse(arcs);
         solution = new ShortestPathSolution(data, Status.OPTIMAL, new Path(data.getGraph(), arcs));
 
-        return solution;
+        
     }
-
+    return solution;
+    }
 }
