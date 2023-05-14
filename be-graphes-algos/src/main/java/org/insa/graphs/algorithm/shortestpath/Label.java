@@ -8,12 +8,14 @@ public class Label implements Comparable <Label>{
    private Boolean marque ;
    private Double coutRealise ;
    private Arc pere ;
+   private Boolean inTas ;
 
-   public Label (Node sommetCourant, Boolean marque, Double coutRealise, Arc pere){
+   public Label (Node sommetCourant, Boolean marque, Double coutRealise, Arc pere, Boolean inTas){
       this.sommetCourant = sommetCourant ;
       this.marque = marque ;
       this.coutRealise = coutRealise ;
       this.pere = pere ;
+      this.inTas = inTas ;
    }
 
    public Node getSommetCourant () {
@@ -46,6 +48,14 @@ public class Label implements Comparable <Label>{
 
    public Double getCost () {
       return this.coutRealise ;
+   }
+
+   public Boolean getInTas () {
+      return this.inTas ;
+   }
+
+   public void setInTas (Boolean inTas) {
+      this.inTas = inTas ;
    }
 
    public int compareTo (Label l) {

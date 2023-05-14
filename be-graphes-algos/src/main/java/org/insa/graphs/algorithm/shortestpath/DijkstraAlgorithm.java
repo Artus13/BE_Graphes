@@ -22,19 +22,19 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         final ShortestPathData data = getInputData();
         ShortestPathSolution solution = null;
         // TODO:
-
-        ArrayList <Label> listeLabels = new ArrayList <Label>(data.getGraph().size());
         
         //Initialisation
         //attention j'initialise tous les noeuds alors qu'on en a pas necessairement besoin
-        int NbNoeuds = data.getGraph().getNodes().size() ;
+        int NbNoeuds = data.getGraph().size() ;
+        ArrayList <Label> listeLabels = new ArrayList <Label>(NbNoeuds) ;
         for (int i = 0; i < NbNoeuds; i++) {
-            listeLabels.add(new Label(data.getGraph().getNodes().get(i), false, Double.POSITIVE_INFINITY, null)) ;
+            listeLabels.add(new Label(data.getGraph().getNodes().get(i), false, Double.POSITIVE_INFINITY, null, false)) ;
         }
 
         listeLabels.get(data.getOrigin().getId()).setCoutRealise(0.0) ;
         BinaryHeap<Label> tas = new BinaryHeap<Label>() ;
         tas.insert(listeLabels.get(data.getOrigin().getId())) ;
+        listeLabels.get(data.getOrigin().getId()).setInTas(true);
 
         //Iterations
         int idDestination = data.getDestination().getId() ;
@@ -42,35 +42,29 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         Label labelCourant ;
         Node nodeSuccesseur ;
         Label labelSucceseur ;
-        Arc arcCourant ;
         
 
-        while (!labelDestination.getMarque() && !tas.isEmpty()){
-            labelCourant = tas.findMin() ;
-            labelCourant.setMarque(true);
-            tas.deleteMin();
+        while (!tas.isEmpty() && !labelDestination.getMarque()){
+            labelCourant = tas.deleteMin() ;
+            labelCourant.setInTas(false);
+            notifyNodeMarked(labelCourant.sommetCourant) ;
             for (Arc y: labelCourant.sommetCourant.getSuccessors()){
                 nodeSuccesseur = y.getDestination() ;
                 labelSucceseur = listeLabels.get(nodeSuccesseur.getId()) ;
-                arcCourant = y ;
                 if (!labelSucceseur.getMarque()){
-        
                     if(labelSucceseur.getCoutRealise() > labelCourant.getCost() + y.getLength()){
-                        if(labelSucceseur.getCoutRealise()!=Double.POSITIVE_INFINITY){
-                            labelSucceseur.setCoutRealise(labelCourant.getCost() + y.getLength());
+                        labelSucceseur.setCoutRealise(labelCourant.getCost() + y.getLength());
+                        labelSucceseur.setPere(y);
+                        if (labelSucceseur.getInTas()){
                             tas.remove(labelSucceseur);
-                            tas.insert(labelSucceseur);
-                            labelSucceseur.setPere(y);
+                            labelSucceseur.setInTas(false);
                         }
-                        else{
-                            labelSucceseur.setCoutRealise(labelCourant.getCost() + y.getLength());
-                            tas.insert(labelSucceseur);
-                            labelSucceseur.setPere(y);
-                            System.out.println(y);
-                        }
+                        tas.insert(labelSucceseur);
+                        labelSucceseur.setInTas(true);
                     }
                 }
             } 
+            labelCourant.setMarque(true);
         }
 
         
@@ -80,7 +74,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         }
         else {
 
-            // Create the path from the array of predecessors...
+        // Create the path from the array of predecessors...
         ArrayList<Arc> arcs = new ArrayList<>();
         Arc arc = listeLabels.get(data.getDestination().getId()).getPere();
         System.out.println(arc);
