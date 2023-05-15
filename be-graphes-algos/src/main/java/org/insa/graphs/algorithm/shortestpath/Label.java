@@ -58,15 +58,27 @@ public class Label implements Comparable <Label>{
       this.inTas = inTas ;
    }
 
+   public Double getTotalCost (){
+      return this.getCoutRealise() ;
+   }
+
    public int compareTo (Label l) {
-      if (this.coutRealise-l.coutRealise < 0) {
-         return -1 ;
-      }
-      else if (this.coutRealise-l.coutRealise < 0) {
+      if (this.getTotalCost()-l.getTotalCost() > 0) {
          return 1 ;
       }
+      else if (this.getTotalCost()-l.getTotalCost() < 0) {
+         return -1 ;
+      }
       else {
-         return 0 ;
+         if (this.getTotalCost() - this.getCoutRealise() - (this.getTotalCost() - this.getCoutRealise()) > 0){
+            return 1 ;
+         }
+         else if (this.getTotalCost() - this.getCoutRealise() - (this.getTotalCost() - this.getCoutRealise()) < 0){
+            return -1 ;
+         }
+         else {
+            return 0 ;
+         }
       }
    }
 }

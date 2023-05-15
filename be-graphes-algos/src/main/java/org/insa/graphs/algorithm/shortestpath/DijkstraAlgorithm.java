@@ -37,6 +37,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         listeLabels.get(data.getOrigin().getId()).setInTas(true);
 
         //Iterations
+        //ajouter avec distance
         int idDestination = data.getDestination().getId() ;
         Label labelDestination = listeLabels.get(idDestination) ;
         Label labelCourant ;
@@ -46,7 +47,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
 
         while (!tas.isEmpty() && !labelDestination.getMarque()){
             labelCourant = tas.deleteMin() ;
-            labelCourant.setInTas(false);
+            listeLabels.get(labelCourant.sommetCourant.getId()).setInTas(false) ;
             notifyNodeMarked(labelCourant.sommetCourant) ;
             for (Arc y: labelCourant.sommetCourant.getSuccessors()){
                 nodeSuccesseur = y.getDestination() ;
@@ -57,10 +58,10 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
                         labelSucceseur.setPere(y);
                         if (labelSucceseur.getInTas()){
                             tas.remove(labelSucceseur);
-                            labelSucceseur.setInTas(false);
+                            listeLabels.get(labelSucceseur.sommetCourant.getId()).setInTas(false) ;
                         }
                         tas.insert(labelSucceseur);
-                        labelSucceseur.setInTas(true);
+                        listeLabels.get(labelSucceseur.sommetCourant.getId()).setInTas(false) ;
                     }
                 }
             } 
