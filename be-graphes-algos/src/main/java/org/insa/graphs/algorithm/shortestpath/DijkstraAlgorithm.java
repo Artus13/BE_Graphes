@@ -80,7 +80,6 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         // Create the path from the array of predecessors...
         ArrayList<Arc> arcs = new ArrayList<>();
         Arc arc = listeLabels.get(data.getDestination().getId()).getPere();
-        System.out.println(arc);
         while(arc != null){
             arcs.add(arc) ;
             arc = listeLabels.get(arc.getOrigin().getId()).getPere() ;
