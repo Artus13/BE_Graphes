@@ -50,11 +50,14 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
             listeLabels.get(labelCourant.sommetCourant.getId()).setInTas(false) ;
             notifyNodeMarked(labelCourant.sommetCourant) ;
             for (Arc y: labelCourant.sommetCourant.getSuccessors()){
+                if (!data.isAllowed(y)) {
+                    continue;
+                }
                 nodeSuccesseur = y.getDestination() ;
                 labelSucceseur = listeLabels.get(nodeSuccesseur.getId()) ;
                 if (!labelSucceseur.getMarque()){
-                    if(labelSucceseur.getCoutRealise() > labelCourant.getCost() + y.getLength()){
-                        labelSucceseur.setCoutRealise(labelCourant.getCost() + y.getLength());
+                    if(labelSucceseur.getCoutRealise() > labelCourant.getCost() + data.getCost(y)){
+                        labelSucceseur.setCoutRealise(labelCourant.getCost() + data.getCost(y));
                         labelSucceseur.setPere(y);
                         if (labelSucceseur.getInTas()){
                             tas.remove(labelSucceseur);
@@ -69,7 +72,6 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         }
 
         
-        System.out.println(listeLabels.get(data.getDestination().getId()).getPere());
         if (listeLabels.get(data.getDestination().getId()).getPere() == null) {
             solution = new ShortestPathSolution(data, Status.INFEASIBLE);
         }

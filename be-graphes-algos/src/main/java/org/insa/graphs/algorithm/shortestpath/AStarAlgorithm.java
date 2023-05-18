@@ -28,7 +28,7 @@ public class AStarAlgorithm extends DijkstraAlgorithm {
         int NbNoeuds = data.getGraph().size() ;
         ArrayList <LabelStar> listeLabels = new ArrayList <LabelStar>(NbNoeuds) ;
         for (int i = 0; i < NbNoeuds; i++) {
-            listeLabels.add(new LabelStar(data.getGraph().getNodes().get(i), false, Double.POSITIVE_INFINITY, null, false, nodeDestination)) ;
+            listeLabels.add(new LabelStar(data.getGraph().getNodes().get(i), false, Double.POSITIVE_INFINITY, null, false, nodeDestination, data)) ;
         }
 
         listeLabels.get(data.getOrigin().getId()).setCoutRealise(0.0) ;
@@ -49,11 +49,14 @@ public class AStarAlgorithm extends DijkstraAlgorithm {
             listeLabels.get(labelCourant.sommetCourant.getId()).setInTas(false) ;
             notifyNodeMarked(labelCourant.sommetCourant) ;
             for (Arc y: labelCourant.sommetCourant.getSuccessors()){
+                if (!data.isAllowed(y)) {
+                    continue;
+                }
                 nodeSuccesseur = y.getDestination() ;
                 labelSucceseur = listeLabels.get(nodeSuccesseur.getId()) ;
                 if (!labelSucceseur.getMarque()){
-                    if(labelSucceseur.getCoutRealise() > labelCourant.getCost() + y.getLength()){
-                        labelSucceseur.setCoutRealise(labelCourant.getCost() + y.getLength());
+                    if(labelSucceseur.getCoutRealise() > labelCourant.getCost() + data.getCost(y)){
+                        labelSucceseur.setCoutRealise(labelCourant.getCost() + data.getCost(y));
                         labelSucceseur.setPere(y);
                         if (labelSucceseur.getInTas()){
                             tas.remove(labelSucceseur);
@@ -67,8 +70,7 @@ public class AStarAlgorithm extends DijkstraAlgorithm {
             labelCourant.setMarque(true);
         }
 
-        
-        System.out.println(listeLabels.get(data.getDestination().getId()).getPere());
+
         if (listeLabels.get(data.getDestination().getId()).getPere() == null) {
             solution = new ShortestPathSolution(data, Status.INFEASIBLE);
         }
