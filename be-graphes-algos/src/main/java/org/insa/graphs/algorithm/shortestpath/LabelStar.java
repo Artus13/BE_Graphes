@@ -25,8 +25,4 @@ public class LabelStar extends Label{
    public Double getTotalCost (){
       return this.getCoutRealise() + this.coutVolOiseau ;
    }
-
-   public Double getCoutVolOiseau () {
-      return this.coutVolOiseau ;
-   }
 }
