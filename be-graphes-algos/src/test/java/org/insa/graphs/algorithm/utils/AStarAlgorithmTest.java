@@ -13,13 +13,13 @@ import org.insa.graphs.model.Graph;
 import org.insa.graphs.model.Node;
 import org.insa.graphs.algorithm.shortestpath.ShortestPathData;
 import org.insa.graphs.algorithm.ArcInspectorFactory;
-import org.insa.graphs.algorithm.shortestpath.DijkstraAlgorithm;
+import org.insa.graphs.algorithm.shortestpath.AStarAlgorithm;
 import org.insa.graphs.algorithm.shortestpath.ShortestPathSolution;
 import org.insa.graphs.algorithm.AbstractSolution.Status;
 import org.insa.graphs.algorithm.shortestpath.BellmanFordAlgorithm;
 
 
-public class DijkstraAlgorithmTest {
+public class AStarAlgorithmTest {
 
    @Test
    public void TestCheminInexistant() throws Exception{
@@ -37,7 +37,7 @@ public class DijkstraAlgorithmTest {
 
       ShortestPathData data = new ShortestPathData(graph, origin, destination, ArcInspectorFactory.getAllFilters().get(0));
 
-      DijkstraAlgorithm algo = new DijkstraAlgorithm(data);
+      AStarAlgorithm algo = new AStarAlgorithm(data);
 
       ShortestPathSolution Path = algo.run();
 
@@ -60,7 +60,7 @@ public class DijkstraAlgorithmTest {
 
       ShortestPathData data = new ShortestPathData(graph, origin, destination, ArcInspectorFactory.getAllFilters().get(0));
 
-      DijkstraAlgorithm algo = new DijkstraAlgorithm(data);
+      AStarAlgorithm algo = new AStarAlgorithm(data);
 
       ShortestPathSolution Path = algo.run();
 
@@ -68,7 +68,7 @@ public class DijkstraAlgorithmTest {
    }
 
    @Test
-   public void TestDijkstraShortestAllRoads() throws Exception{
+   public void TestAStarShortestAllRoads() throws Exception{
       final String mapName = "D:\\Travail\\INSA\\3A\\BE_Graphes\\Maps\\europe\\france\\toulouse.mapgr" ;
 
       final GraphReader reader = new BinaryGraphReader(
@@ -95,25 +95,25 @@ public class DijkstraAlgorithmTest {
 
          ShortestPathData data = new ShortestPathData(graph, origin, destination, ArcInspectorFactory.getAllFilters().get(0));
 
-         DijkstraAlgorithm Dijkstra = new DijkstraAlgorithm(data);
+         AStarAlgorithm AStar = new AStarAlgorithm(data);
 
          BellmanFordAlgorithm BellmanFord = new BellmanFordAlgorithm(data);
 
-         ShortestPathSolution PathDijkstra = Dijkstra.run();
+         ShortestPathSolution PathAStar = AStar.run();
 
          ShortestPathSolution PathBellmanFord = BellmanFord.run();
 
-         if(PathDijkstra.getPath() == null && PathBellmanFord.getPath() == null){
-            assertEquals(null, PathDijkstra.getPath());
+         if(PathAStar.getPath() == null && PathBellmanFord.getPath() == null){
+            assertEquals(null, PathAStar.getPath());
         } 
         else{
-            assertEquals(PathBellmanFord.getPath().getLength(), PathDijkstra.getPath().getLength(), 1e-3);
+            assertEquals(PathBellmanFord.getPath().getLength(), PathAStar.getPath().getLength(), 1e-3);
         }
       }
    }
 
    @Test
-   public void TestDijkstraShortestOnlyCars() throws Exception{
+   public void TestAStarShortestOnlyCars() throws Exception{
       final String mapName = "D:\\Travail\\INSA\\3A\\BE_Graphes\\Maps\\europe\\france\\toulouse.mapgr" ;
 
       final GraphReader reader = new BinaryGraphReader(
@@ -140,25 +140,25 @@ public class DijkstraAlgorithmTest {
 
          ShortestPathData data = new ShortestPathData(graph, origin, destination, ArcInspectorFactory.getAllFilters().get(1));
 
-         DijkstraAlgorithm Dijkstra = new DijkstraAlgorithm(data);
+         AStarAlgorithm AStar = new AStarAlgorithm(data);
 
          BellmanFordAlgorithm BellmanFord = new BellmanFordAlgorithm(data);
 
-         ShortestPathSolution PathDijkstra = Dijkstra.run();
+         ShortestPathSolution PathAStar = AStar.run();
 
          ShortestPathSolution PathBellmanFord = BellmanFord.run();
 
-         if(PathDijkstra.getPath() == null && PathBellmanFord.getPath() == null){
-            assertEquals(null, PathDijkstra.getPath());
+         if(PathAStar.getPath() == null && PathBellmanFord.getPath() == null){
+            assertEquals(null, PathAStar.getPath());
         } 
         else{
-            assertEquals(PathBellmanFord.getPath().getLength(), PathDijkstra.getPath().getLength(), 1e-3);
+            assertEquals(PathBellmanFord.getPath().getLength(), PathAStar.getPath().getLength(), 1e-3);
         }
       }
    }
 
    @Test
-   public void TestDijkstraFastestAllRoads() throws Exception{
+   public void TestAStarFastestAllRoads() throws Exception{
       final String mapName = "D:\\Travail\\INSA\\3A\\BE_Graphes\\Maps\\europe\\france\\toulouse.mapgr" ;
 
       final GraphReader reader = new BinaryGraphReader(
@@ -185,25 +185,25 @@ public class DijkstraAlgorithmTest {
 
          ShortestPathData data = new ShortestPathData(graph, origin, destination, ArcInspectorFactory.getAllFilters().get(2));
 
-         DijkstraAlgorithm Dijkstra = new DijkstraAlgorithm(data);
+         AStarAlgorithm AStar = new AStarAlgorithm(data);
 
          BellmanFordAlgorithm BellmanFord = new BellmanFordAlgorithm(data);
 
-         ShortestPathSolution PathDijkstra = Dijkstra.run();
+         ShortestPathSolution PathAStar = AStar.run();
 
          ShortestPathSolution PathBellmanFord = BellmanFord.run();
 
-         if(PathDijkstra.getPath() == null && PathBellmanFord.getPath() == null){
-            assertEquals(null, PathDijkstra.getPath());
+         if(PathAStar.getPath() == null && PathBellmanFord.getPath() == null){
+            assertEquals(null, PathAStar.getPath());
         } 
         else{
-            assertEquals(PathBellmanFord.getPath().getMinimumTravelTime(), PathDijkstra.getPath().getMinimumTravelTime(), 1e-3);
+            assertEquals(PathBellmanFord.getPath().getMinimumTravelTime(), PathAStar.getPath().getMinimumTravelTime(), 1e-3);
         }
       }
    }
 
    @Test
-   public void TestDijkstraFastestOnlyCars() throws Exception{
+   public void TestAStarFastestOnlyCars() throws Exception{
       final String mapName = "D:\\Travail\\INSA\\3A\\BE_Graphes\\Maps\\europe\\france\\toulouse.mapgr" ;
 
       final GraphReader reader = new BinaryGraphReader(
@@ -230,25 +230,25 @@ public class DijkstraAlgorithmTest {
 
          ShortestPathData data = new ShortestPathData(graph, origin, destination, ArcInspectorFactory.getAllFilters().get(3));
 
-         DijkstraAlgorithm Dijkstra = new DijkstraAlgorithm(data);
+         AStarAlgorithm AStar = new AStarAlgorithm(data);
 
          BellmanFordAlgorithm BellmanFord = new BellmanFordAlgorithm(data);
 
-         ShortestPathSolution PathDijkstra = Dijkstra.run();
+         ShortestPathSolution PathAStar = AStar.run();
 
          ShortestPathSolution PathBellmanFord = BellmanFord.run();
 
-         if(PathDijkstra.getPath() == null && PathBellmanFord.getPath() == null){
-            assertEquals(null, PathDijkstra.getPath());
+         if(PathAStar.getPath() == null && PathBellmanFord.getPath() == null){
+            assertEquals(null, PathAStar.getPath());
         } 
         else{
-            assertEquals(PathBellmanFord.getPath().getMinimumTravelTime(), PathDijkstra.getPath().getMinimumTravelTime(), 1e-3);
+            assertEquals(PathBellmanFord.getPath().getMinimumTravelTime(), PathAStar.getPath().getMinimumTravelTime(), 1e-3);
         }
       }
    }
 
    @Test
-   public void TestDijkstraFastestPedestrian() throws Exception{
+   public void TestAStarFastestPedestrian() throws Exception{
       final String mapName = "D:\\Travail\\INSA\\3A\\BE_Graphes\\Maps\\europe\\france\\toulouse.mapgr" ;
 
       final GraphReader reader = new BinaryGraphReader(
@@ -275,19 +275,19 @@ public class DijkstraAlgorithmTest {
 
          ShortestPathData data = new ShortestPathData(graph, origin, destination, ArcInspectorFactory.getAllFilters().get(4));
 
-         DijkstraAlgorithm Dijkstra = new DijkstraAlgorithm(data);
+         AStarAlgorithm AStar = new AStarAlgorithm(data);
 
          BellmanFordAlgorithm BellmanFord = new BellmanFordAlgorithm(data);
 
-         ShortestPathSolution PathDijkstra = Dijkstra.run();
+         ShortestPathSolution PathAStar = AStar.run();
 
          ShortestPathSolution PathBellmanFord = BellmanFord.run();
 
-         if(PathDijkstra.getPath() == null && PathBellmanFord.getPath() == null){
-            assertEquals(null, PathDijkstra.getPath());
+         if(PathAStar.getPath() == null && PathBellmanFord.getPath() == null){
+            assertEquals(null, PathAStar.getPath());
         } 
         else{
-            assertEquals(PathBellmanFord.getPath().getMinimumTravelTime(), PathDijkstra.getPath().getMinimumTravelTime(), 1e-3);
+            assertEquals(PathBellmanFord.getPath().getMinimumTravelTime(), PathAStar.getPath().getMinimumTravelTime(), 1e-3);
         }
       }
    }

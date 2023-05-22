@@ -153,12 +153,12 @@ public abstract class PriorityQueueTest {
     }
 
     @Test
-    public void testIsEmpty() {
+    public void TestIsEmpty() {
         assertEquals(parameters.data.length == 0, this.queue.isEmpty());
     }
 
     @Test
-    public void testSize() {
+    public void TestSize() {
         assertEquals(parameters.data.length, this.queue.size());
     }
 
