@@ -18,3 +18,6 @@ doc
 *.mapgr
 *.path
 *.tgz
+
+#Rendu specific files
+*.docx
